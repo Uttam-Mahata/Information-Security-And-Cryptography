@@ -22,25 +22,7 @@ graph TD
     style E fill:#cc99ff,stroke:#9933ff,color:#000
 ```
 
-### Packet Sniffing Process
 
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant S as Server
-    participant A as Attacker
-    
-    Note over A: Deploys sniffer on network
-    U->>S: Request (unencrypted)
-    Note over A: Captures packet
-    S->>U: Response (unencrypted)
-    Note over A: Captures packet
-    Note over A: Analyzes captured data
-    
-    style U fill:#f9d5e5
-    style S fill:#d3f8e2
-    style A fill:#fce1e4
-```
 
 ### Types of Packet Sniffers
 
@@ -258,3 +240,170 @@ graph LR
 ## Conclusion
 
 Both packet sniffing and packet spoofing represent significant security concerns in modern networks. Understanding how these techniques work is essential for cybersecurity professionals to develop effective countermeasures and protect network infrastructure from potential attacks.
+
+# Specific Cryptographic Attacks
+
+This document provides detailed information about specific cryptographic attacks that are commonly encountered in information security. These attacks may fall under either active or passive categories but are significant enough to warrant detailed explanation.
+
+## Cryptanalytic Attacks
+
+### Brute Force Attack
+
+Systematically trying all possible combinations of keys until the correct one is found.
+
+**Characteristics:**
+- Guaranteed to work eventually
+- Effectiveness depends on key length
+- Computationally intensive
+
+**Defense:** Use sufficiently long keys that make brute force attacks computationally infeasible.
+
+### Dictionary Attack
+
+Using a list of likely passwords or keys instead of trying all possible combinations.
+
+**Characteristics:**
+- More efficient than pure brute force
+- Effective against weak passwords
+- Can be combined with rule-based mutations
+
+**Defense:** Use complex passwords that aren't found in dictionaries, implement password policies.
+
+### Rainbow Table Attack
+
+Using precomputed tables to reverse cryptographic hash functions.
+
+**Characteristics:**
+- Trade-off between computation time and storage space
+- Very efficient for certain types of hashes
+- Limited by the size of the rainbow table
+
+**Defense:** Use salt with hash functions to make precomputation infeasible.
+
+## Mathematical and Algorithmic Attacks
+
+### Differential Cryptanalysis
+
+Analyzing how differences in input affect the differences in output of a cryptographic function.
+
+**Characteristics:**
+- Studies the effect of small changes in plaintext pairs
+- Effective against many block ciphers
+- Requires statistical analysis
+
+**Defense:** Design ciphers with strong diffusion and confusion properties.
+
+### Linear Cryptanalysis
+
+Approximating the behavior of a cipher using linear equations.
+
+**Characteristics:**
+- Looks for statistical biases in the cipher
+- Often requires large amounts of known plaintext-ciphertext pairs
+- Works against ciphers with weak substitution components
+
+**Defense:** Design ciphers with strong non-linear components.
+
+### Side-Channel Attacks
+
+Exploiting information gained from the physical implementation rather than weaknesses in the algorithm itself.
+
+**Types of Side-Channel Attacks:**
+
+| Attack Type | Description | Information Leaked | Defense Mechanisms |
+|-------------|-------------|-------------------|-------------------|
+| Timing Attack | Analyzes time taken to execute cryptographic algorithms | Secret key bits | Constant-time implementation |
+| Power Analysis | Monitors power consumption during operations | Key material | Power consumption equalization |
+| Electromagnetic Analysis | Measures EM radiation | Processing information | Shielding, noise generation |
+| Acoustic Attack | Analyzes sound emissions | CPU operations | Soundproofing, masking noise |
+| Cache Attack | Exploits CPU cache behavior | Access patterns | Cache isolation techniques |
+
+## Protocol-Level Attacks
+
+### Man-in-the-Browser Attack
+
+A form of MITM attack where malware infects a browser, allowing attackers to modify web pages and transaction data.
+
+**Characteristics:**
+- Can bypass HTTPS and two-factor authentication
+- Often delivered through phishing or drive-by downloads
+- Difficult to detect as it operates between encrypted data and user interface
+
+**Defense:** Use out-of-band transaction verification, HSTS, browser security.
+
+### Session Hijacking
+
+Taking over an active user session by stealing session tokens.
+
+**Characteristics:**
+- Exploits weak session management
+- Can occur through XSS or packet sniffing
+- Provides full access to the victim's account
+
+**Defense:** Use secure cookies, HTTPS, frequent session regeneration, and proper session invalidation.
+
+## Visual Representation of Attack Complexity vs. Feasibility
+
+```
+High │                       ○ Quantum Attacks
+     │                       
+     │                    ○ Side-Channel
+     │              ○ Differential
+     │         ○ Linear
+Complexity│    
+     │  ○ Rainbow Tables
+     │○ Dictionary
+     │○ Brute Force
+Low  └─────────────────────────────────────
+      Low                                High
+             Practical Feasibility
+```
+
+## Quantum Computing Threats to Cryptography
+
+| Algorithm Type | Vulnerability to Quantum | Examples | Post-Quantum Alternatives |
+|----------------|-------------------------|----------|---------------------------|
+| Symmetric Key | Moderate (Grover's algorithm) | AES, ChaCha20 | Increase key sizes |
+| Public Key (Factorization) | Severe (Shor's algorithm) | RSA, DSA | Lattice-based cryptography |
+| Public Key (Discrete Log) | Severe (Shor's algorithm) | DH, ECDH, ECDSA | Hash-based signatures |
+| Hash Functions | Moderate | SHA-2, SHA-3 | Increase output sizes |
+
+## Attack Prevention Strategy Framework
+
+1. **Risk Assessment**
+   - Identify assets and their value
+   - Determine potential threat actors
+   - Evaluate existing vulnerabilities
+
+2. **Prevention Measures**
+   - Implement strong cryptographic algorithms
+   - Follow security best practices
+   - Keep systems updated
+
+3. **Detection Methods**
+   - Monitor for unusual activities
+   - Implement intrusion detection systems
+   - Conduct regular security audits
+
+4. **Response Procedures**
+   - Establish incident response plans
+   - Practice recovery scenarios
+   - Document lessons learned
+
+## Emerging Attack Vectors
+
+### AI-Based Attacks
+
+Machine learning and artificial intelligence are now being used to enhance cryptographic attacks:
+- Neural networks for password prediction
+- Pattern recognition for side-channel attacks
+- Automated vulnerability discovery
+
+### Hardware-Level Attacks
+
+Exploiting hardware vulnerabilities such as:
+- **Spectre/Meltdown**: Exploiting speculative execution in CPUs
+- **Rowhammer**: Bit flipping in memory to alter cryptographic keys
+- **Cold Boot**: Recovering encryption keys from memory after power loss
+
+Understanding these specific attacks and their countermeasures is essential for building secure systems that can withstand sophisticated adversaries in modern computing environments.
